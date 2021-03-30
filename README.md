@@ -26,6 +26,7 @@ Generall Abstracted View
         ii.  Node-red
              1. Install nodejs and npm (use the LTS)
              2. From the nodered installation page, follow the instruction to install pi specific node-red
+             3. Setup the node management flow
         iii. Lorwan Server
             
         iv.  MQTT Broker
