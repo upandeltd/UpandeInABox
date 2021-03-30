@@ -1,4 +1,4 @@
-# ROSSLY SOLAR
+# ROSSLYN SOLAR
 
 ## Introduction
 Rossly Solar project aims at having a minimalistic setup of the whole Vipimo stack running on a single board computer preferably the raspberryPi. This provides an oportunity for having an E2E IoT system setup within a closed network that works offline possibly in power deficient environment.
@@ -30,6 +30,11 @@ Similary, to provide a higher uptime assurance, a parallel solar panel array can
 The software components used are shown in the stack above.
 ### Setup installation instructions
 Its necessary to follows the installation sequence as given below as the most likely to fail part of the installation process is the thingsboard.
+
+The steps below assumes:
+
+1. You have installed latest desktop version of the raspbian and changed the hostname to ``vipimolite``
+
 **INSTALL THINGSBOARD**
 
 *INSTALL JAVA 8*
@@ -58,7 +63,7 @@ Its necessary to follows the installation sequence as given below as the most li
 
 First, use wget to obtain the precustomized thingsboard debian package that has the vipimo branding in this repository.
 
-```sudo wget ```
+```sudo wget https://github.com/upandeltd/ROSSLYN-SOLAR/blob/main/thingsboard%202.4.0.deb```
 
 ```sudo dpkg -i thingsboard-3.2.2.deb```
 
@@ -68,48 +73,103 @@ First, use wget to obtain the precustomized thingsboard debian package that has 
 
 **NB** It takes upto 300 seconds for thingsboard to start. Be patient with it. It will eventually start at port 8080.
 
-****
+**INSTALL NODE-RED**
+Node-red provides the bridge for packets data decoding and nodes provisioning in this case.
+Use the command below to install node-red
 
-=======
-## ROSSLY SOLAR
-### DESCRIPTION
-Rossly Solar project aims at having a minimalistic setup of the whole Vipimo stack running on a single board computer preferably the raspberryPi. This provides an oportunity for having an E2E IoT system setup within a closed network that works offline possibly in power deficient environment.
-### OBJECTIVES
-At every instance one undertakes any action within the project it is vital that at the end of whatever task you were carrying out the following objectives are met or targted:
+```bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)```
 
-1. Successfully setup and configure Thingsboard, NodeRed, Lorawan Server, and MQTT broker 
-2. Correctly establish a solar power system that will power the whole system and be able to provide the total power requirement for the system
-3. Rigourously test and validate the system fuctionality and the operational limits
+Accept the options when propmpted to install PI specific node
 
->>>>>>> aeeae615ac88fcd8b49f19f7a7aed51aecb8fd5b
-### STRUCTURE & CONFIGS
-Generall Abstracted View
+```sudo systemctl enable nodered.service```
 
-1. Software Modules
+```node-red-pi --max-old-space-size=256```
 
-        i.   Thingsboard
-             Within the repository, you will find a customized(configured to match Vipimo Brand) debian package of the thingsboard 2.4.0.
-            
-             1. Install postgresql
-             2. Create a database called thingsboard
-             3. create a user called "thingsboard" with password "upandegani"
-             4. install java 8 and configure it to be one used by the system
-             5. unpack the thingsboard debian package
-             6. run the install command for the thingsboard
-             7. Enable it to start at boot
-        ii.  Node-red
-             1. Install nodejs and npm (use the LTS)
-             2. From the nodered installation page, follow the instruction to install pi specific node-red
-<<<<<<< HEAD
-             3. Setup the node management flow
-=======
->>>>>>> aeeae615ac88fcd8b49f19f7a7aed51aecb8fd5b
-        iii. Lorwan Server
-            
-        iv.  MQTT Broker
-2. Hardware Modules
+When browsing from another machine you should use the hostname or IP-address of the Pi: ```http://<hostname>:1880```. You can find the IP address by running ```hostname -I``` on the Pi.
 
-        i   Solar Panel(s)
-        ii  Rechargable Battery
-        iii Single Board Computer, Preferable RPi 4 4GB
-        iv  Solar Charge Controller"# ROSSLYN-SOLAR" 
+Once installed:
+1. log into the pi and in ```/home/pi``` directory 
+2. Create a json file Nodes.json with empty array i.e *type []* 
+3. Change the file permision: ```bash sudo chmod 777 /home/pi/Nodes.json```
+4. Go to ```http://<hostname>:1880``` and import the ```javascriptflow.json``` in this repository.
+
+This flow contains node provisioning flows and the foundation for nodes data decoding.
+
+**INSTALL MQTT**
+
+```sudo apt update```
+
+```sudo apt install -y mosquitto mosquitto-clients```
+
+You are likely to encounter some error here however continue with the steps below.
+
+```sudo systemctl enable mosquitto.service```
+
+Mosquitto is controlled in two ways. First, the default configuration is in /etc/mosquitto/mosquitto.conf. I recommend you not edit this file, however, and instead, use the second mechanism, which is a file with a .conf extension in /etc/mosquitto/conf.d. I actually named mine mosquitto.conf, too, so the full path to the local configuration file is /etc/mosquitto/conf.d/mosquitto.conf. This file is populated with example configurations by default, so you'll want to edit it for your local use. Here is the local configuration file I recommend you add to the file:
+
+```listener 1884```
+
+The setting above changes the listening port of the mqtt broker. The default port 1883 is used by the netty-mqtt  installed when thingsboard is installed. Save the file and restart the mqtt service.
+
+```sudo systemctl restart mosquitto```
+
+**Install Lorawan Server**
+
+On the Debian Linux and its clones like Raspbian you can use the .deb package.
+
+Unless you have Debian 10 (Buster) you have to install the Erlang/OTP 21.0 or later from Erlang Solutions first:
+
+```wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb```
+
+```sudo dpkg -i erlang-solutions_1.0_all.deb```
+
+```sudo apt-get update```
+
+```sudo apt-get install erlang-base erlang-crypto erlang-syntax-tools erlang-inets \```
+    ```erlang-mnesia erlang-runtime-tools erlang-ssl erlang-public-key erlang-asn1 \```
+    ```erlang-os-mon erlang-snmp erlang-xmerl```
+
+Download the Debian package lorawan-server-*.deb and install it by:
+
+```sudo wget https://github.com/gotthardp/lorawan-server/releases/download/v0.6.7/lorawan-server_0.6.7_all.deb```
+
+```dpkg -i lorawan-server_0.6.7_all.deb```
+
+start automatically after system reboot
+
+```systemctl enable lorawan-server```
+
+The server by default binds itself to port 8080. But this is also the port used by the thingsboard installed above. As such we need to change the port it binds to as shown below:
+
+Static server configuration is defined in ```/usr/liblorawan-server/releases/0.6.7/sys.config```
+Edit sys.config  which looks as shown below by default by changing ```{http_admin_listen, [{port, 8080}]}``` to  ```{http_admin_listen, [{port, 8084}]}```.
+
+Note that you can bind it to any port. Just ensure no process require that port and be sure to remember it.
+
+[{lorawan_server, [
+    `% update this list to add/remove applications
+    {applications, [
+        {<<"semtech-mote">>, lorawan_application_semtech_mote}]},
+    % UDP port listening for packets from the packet_forwarder Gateway
+    {packet_forwarder_listen, [{port, 1680}]},
+    % HTTP port for web-administration and REST API
+    {http_admin_listen, [{port, 8080}]},
+    % default username and password for the admin interface
+    {http_admin_credentials, {<<"admin">>, <<"admin">>}},
+    % Set the following parameter to true to enable statistics metrics in Prometheus format
+    {enable_prometheus, false},
+    % amount of rxframes retained for each device/node
+    {retained_rxframes, 50},
+    % websocket expiration if client sends no data
+    {websocket_timeout, 3600000} % ms
+]},
+{os_mon, [
+    % Setting this parameter to true can be necessary on embedded systems with
+    % stripped-down versions of Unix tools like df.
+    {disksup_posix_only, false}
+]}]
+
+Review the sys.config and modify where needed. After updating the configuration you need to restart the server.
+Then start the server by ```systemctl restart lorawan-server```
+
+This would conclude the setup of the modules.
