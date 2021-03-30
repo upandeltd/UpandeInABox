@@ -1,0 +1,198 @@
+<html>
+<form onsubmit="return decode(event)">
+	<select id="device">
+		<option>Select encoding</option>
+		<option value="a2d2t">A2D2T</option>
+		<option value="rhtpdp">RHTPdP</option>
+	</select>
+	<input id="in_payload" type="text" placeholder="Payload" />
+	<button type="submit">Decode</button>
+</form>
+<h2>Output</h2>
+<hr />
+<p id="output" style="font-family: monospace;"></p>
+
+</html>
+<script>
+	let outputArea = document.getElementById("output");
+
+	function decode(e) {
+		e.preventDefault();
+		let value = document.getElementById("in_payload").value;
+		switch (document.getElementById("device").value) {
+			case "a2d2t":
+				decodeA2d2t(value);
+				break;
+			case "rhtpdp":
+				decodeRhtpdp(value);
+				break;
+			default:
+				break;
+		}
+		return false;
+	}
+
+	function bigEndiantoSmallEndian_n_co(hexstring) {
+		let len = hexstring.length;
+		let bytes = [];
+		let i = 0;
+
+		if (len % 2 == 1) hexstring = '0' + hexstring
+
+		len = hexstring.length;
+		for (i = 0; i < len; i++) bytes[i] = hexstring[i++] + hexstring[i];
+
+		return bytes.reverse().join("");
+	}
+
+	function decodeRhtpdp(hexstring) {
+		let packet_bigEndian = [];
+		let hexlen = hexstring.length;
+		for (var i = 0; i < hexlen; i++) {
+			packet_bigEndian.push(parseInt("0x" + hexstring[i++] + hexstring[i]));
+		}
+
+		let statusFlags = packet_bigEndian[0];
+		let bitArray = [];
+		for (let i = 0; i <= 7; i++) {
+			let compare = (1 << i);
+			bitArray[i] = ((statusFlags) & compare) >> i;
+		}
+
+		let validhumiditysensor = bitArray[0];
+		let validbarometricsensor = bitArray[1];
+		let baromerchip = bitArray[2];
+		let validdiffpressuresensor = bitArray[3];
+		let diffpressuresensorcountsperpascal = bitArray[4];
+
+		let ret = {};
+
+		let boxtemp = hexstring.substr(22, 4);
+		let boxtemp1 = parseInt('0x' + boxtemp);
+		let boxtemp11 = ((boxtemp1 & 0xff00) >> 8);
+		let boxtemp111 = (boxtemp1 & 0x00ff) << 8;
+		boxtemp111 += boxtemp11;
+		boxtemp = boxtemp11.toString(16);
+		boxtemp1 = parseInt('0x' + boxtemp);
+		let boxtempfinal = boxtemp1;
+		ret['T1'] = boxtempfinal.toFixed(4);
+
+		let battery = hexstring.substr(18, 4);
+		battery = bigEndiantoSmallEndian_n_co(battery);
+		battery = parseInt('0x' + battery);
+		ret['B'] = (battery / 1000).toFixed(4);
+
+		if (validbarometricsensor === 1) {
+			let humidity = hexstring.substr(2, 4);
+			let humidity1 = parseInt('0x' + humidity);
+			let humidity11 = ((humidity1 & 0xff00) >> 8);
+			let humidity111 = (humidity1 & 0x00ff) << 8;
+			humidity111 += humidity11;
+			humidity = humidity111.toString(16);
+			humidity1 = parseInt('0x' + humidity);
+			let humidityfinal = 100 * humidity1 / 65535;
+			ret['H1'] = humidityfinal;
+
+			let temp = hexstring.substr(6, 4);
+			let temp1 = parseInt('0x' + temp);
+			let temp11 = ((temp1 & 0xff00) >> 8);
+			let temp111 = (temp1 & 0x00ff) << 8;
+			temp111 += temp11;
+			temp = temp111.toString(16);
+			temp1 = parseInt('0x' + temp);
+			let tempfinal = -45 + 175 * (temp1 / 65535);
+			ret['T4'] = tempfinal.toFixed(4);
+		}
+
+		if (validhumiditysensor === 1) {
+			let temp = hexstring.substr(26, 4);				// this is a signed temperature. What happens for negative values?
+			let temp1 = parseInt('0x' + temp);
+			let temp11 = ((temp1 & 0xff00) >> 8);
+			let temp111 = (temp1 & 0x00ff) << 8;
+			temp111 += temp11;
+			temp = temp111.toString(16);
+			temp1 = parseInt('0x' + temp);
+			let tempfinal = temp1 / 100;
+			ret['T2'] = tempfinal.toFixed(4);
+
+			let pressure = hexstring.substr(10, 8);
+			pressure = bigEndiantoSmallEndian_n_co(pressure);
+			pressure = parseInt('0x' + pressure);
+			let pressurefinal = pressure / 100;   // convert from Pascals to hectopascals
+			ret['P1'] = pressurefinal.toFixed(4);
+		}
+
+		let retfinal = {
+			temperature: ret['T2'],
+			pressure: ret['P1'],
+			humidity: ret['H1'],
+			vbat: ret['B'],
+		}
+
+		writeOut(retfinal);
+	}
+
+	function decodeA2d2t(hexstring) {
+		let doorstatus = HEX2DEC(hexstring.substr(30, 2));
+		let digital1 = HEX2DEC(hexstring.substr(38, 8));
+		let digital2 = HEX2DEC(hexstring.substr(46, 4));
+		let analog1 = HEX2DEC(hexstring.substr(26, 4));
+		let analog2 = HEX2DEC(hexstring.substr(32, 4));
+		let temperature = HEX2DEC(hexstring.substr(50, 4));
+		let vbat = HEX2DEC(hexstring.substr(56, 2) + hexstring.substr(54, 2));
+
+		vbat *= 0.006406;
+		temperature *= 0.0625
+		if (analog1 > 32768) analog1 = ((~(analog1 + 1)) << 16) >> 16
+		if (analog2 > 32768) analog2 = ((~(analog2 + 1)) << 16) >> 16
+		if (doorstatus === 67) doorstatus = 0;
+		else doorstatus = 1;
+
+		let I1out = (analog1 * 1.024 / 2048) / 49.9
+		let I2out = (analog2 * 1.024 / 2048) / 49.9
+
+		let level1 = (I1out - 0.004) * 5 / (0.020 - 0.004)
+		let level2 = (I2out - 0.004) * 5 / (0.020 - 0.004)
+
+		let payload = {
+			doorstatus,
+			digital1,
+			digital2,
+			analog1,
+			analog2,
+			temperature,
+			vbat,
+			I1out,
+			I2out,
+			level1,
+			level2,
+			soilmoisture1: (analog1 / 2048) * 100,
+			soilmoisture2: (analog2 / 2048) * 100,
+		}
+
+		writeOut(payload);
+	}
+
+	function writeOut(payload) {
+		let htmlVal = "";
+		for (const propName in payload) {
+			if (Object.hasOwnProperty.call(payload, propName)) {
+
+				htmlVal += `<b>${propName}</b>: <i>${payload[propName]}</i><br/>`;
+			}
+		}
+
+		outputArea.innerHTML = htmlVal;
+	}
+
+	function HEX2DEC(number) {
+		// Return error if number is not hexadecimal or contains more than ten characters (10 digits)
+		if (!/^[0-9A-Fa-f]{1,10}$/.test(number)) return '#NUM!';
+
+		// Convert hexadecimal number to decimal
+		var decimal = parseInt(number, 16);
+
+		// Return decimal number
+		return (decimal >= 549755813888) ? decimal - 1099511627776 : decimal;
+	}
+</script>

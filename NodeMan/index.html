@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Node Man</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <a href="/nodeman"><img src="logo.png" alt="logo"></a>
+        </div>
+        <div class="navbar">
+
+            <div class="icon-bar" onclick="Show()">
+                <i></i>
+                <i></i>
+                <i></i>
+            </div>
+
+            <ul id="nav-lists">
+                <li class="close"><span onclick="Hide()">×</span></li>
+                <li><a href="/nodeman">Node Lists</a></li>
+                <li><a href="/addnode">Add Node</a></li>
+            </ul>
+
+        </div>
+    </div>
+    
+    <div class="body-container">
+        <div class="flex-container" style="margin-left: 0.5em;">
+            <input type="text" placeholder="Enter Field Name" id="field-name"  required name="field-name">
+            <button id="add-btn" onclick="addField()">Add</button>
+        </div>
+        
+        <form id="form">
+            <div class="flex-container" id="flex-a" style="margin-left: 0.5em;">
+                <input placeholder="DevAddr" required type="text" name="DevAddr">
+                <input required placeholder="Access Token"  type="text" name="Token">
+                <input placeholder="DevType"required  type="text" name="DevType">
+                <input placeholder="Encoding" required type="text" name="Encoding">
+            </div>
+            <div class="flex-container">
+                <button id="save-btn" type="submit">Save</button>
+                <button id="cancel-btn" type="reset">Clear</button>
+            </div>
+        </form>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
