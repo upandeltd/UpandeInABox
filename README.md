@@ -125,9 +125,7 @@ Unless you have Debian 10 (Buster) you have to install the Erlang/OTP 21.0 or la
 
 ```sudo apt-get update```
 
-```sudo apt-get install erlang-base erlang-crypto erlang-syntax-tools erlang-inets \```
-    ```erlang-mnesia erlang-runtime-tools erlang-ssl erlang-public-key erlang-asn1 \```
-    ```erlang-os-mon erlang-snmp erlang-xmerl```
+```sudo apt-get install erlang-base erlang-crypto erlang-syntax-tools erlang-inets \erlang-mnesia erlang-runtime-tools erlang-ssl erlang-public-key erlang-asn1 \erlang-os-mon erlang-snmp erlang-xmerl```
 
 Download the Debian package lorawan-server-*.deb and install it by:
 
