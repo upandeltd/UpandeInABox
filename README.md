@@ -140,32 +140,7 @@ start automatically after system reboot
 The server by default binds itself to port 8080. But this is also the port used by the thingsboard installed above. As such we need to change the port it binds to as shown below:
 
 Static server configuration is defined in ```/usr/liblorawan-server/releases/0.6.7/sys.config```
-Edit sys.config  which looks as shown below by default by changing ```{http_admin_listen, [{port, 8080}]}``` to  ```{http_admin_listen, [{port, 8084}]}```.
-
-Note that you can bind it to any port. Just ensure no process require that port and be sure to remember it.
-
-[{lorawan_server, [
-    `% update this list to add/remove applications
-    {applications, [
-        {<<"semtech-mote">>, lorawan_application_semtech_mote}]},
-    % UDP port listening for packets from the packet_forwarder Gateway
-    {packet_forwarder_listen, [{port, 1680}]},
-    % HTTP port for web-administration and REST API
-    {http_admin_listen, [{port, 8080}]},
-    % default username and password for the admin interface
-    {http_admin_credentials, {<<"admin">>, <<"admin">>}},
-    % Set the following parameter to true to enable statistics metrics in Prometheus format
-    {enable_prometheus, false},
-    % amount of rxframes retained for each device/node
-    {retained_rxframes, 50},
-    % websocket expiration if client sends no data
-    {websocket_timeout, 3600000} % ms
-]},
-{os_mon, [
-    % Setting this parameter to true can be necessary on embedded systems with
-    % stripped-down versions of Unix tools like df.
-    {disksup_posix_only, false}
-]}]
+Edit sys.config  by changing ```{http_admin_listen, [{port, 8080}]}``` to  ```{http_admin_listen, [{port, 8084}]}```.
 
 Review the sys.config and modify where needed. After updating the configuration you need to restart the server.
 Then start the server by ```systemctl restart lorawan-server```
