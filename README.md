@@ -60,6 +60,16 @@ First, use wget to obtain the precustomized thingsboard debian package that has 
 
 ```sudo wget ```
 
+```sudo dpkg -i thingsboard-3.2.2.deb```
+
+```sudo /usr/share/thingsboard/bin/install/install.sh --loadDemo```
+
+```sudo service thingsboard start```
+
+**NB** It takes upto 300 seconds for thingsboard to start. Be patient with it. It will eventually start at port 8080.
+
+****
+
 ### STRUCTURE & CONFIGS
 Generall Abstracted View
 
