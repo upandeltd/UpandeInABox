@@ -70,6 +70,18 @@ First, use wget to obtain the precustomized thingsboard debian package that has 
 
 ****
 
+=======
+## ROSSLY SOLAR
+### DESCRIPTION
+Rossly Solar project aims at having a minimalistic setup of the whole Vipimo stack running on a single board computer preferably the raspberryPi. This provides an oportunity for having an E2E IoT system setup within a closed network that works offline possibly in power deficient environment.
+### OBJECTIVES
+At every instance one undertakes any action within the project it is vital that at the end of whatever task you were carrying out the following objectives are met or targted:
+
+1. Successfully setup and configure Thingsboard, NodeRed, Lorawan Server, and MQTT broker 
+2. Correctly establish a solar power system that will power the whole system and be able to provide the total power requirement for the system
+3. Rigourously test and validate the system fuctionality and the operational limits
+
+>>>>>>> aeeae615ac88fcd8b49f19f7a7aed51aecb8fd5b
 ### STRUCTURE & CONFIGS
 Generall Abstracted View
 
@@ -88,7 +100,10 @@ Generall Abstracted View
         ii.  Node-red
              1. Install nodejs and npm (use the LTS)
              2. From the nodered installation page, follow the instruction to install pi specific node-red
+<<<<<<< HEAD
              3. Setup the node management flow
+=======
+>>>>>>> aeeae615ac88fcd8b49f19f7a7aed51aecb8fd5b
         iii. Lorwan Server
             
         iv.  MQTT Broker
