@@ -1,7 +1,7 @@
 # ROSSLYN SOLAR
 
 ## Introduction
-Rossly Solar project aims at having a minimalistic setup of the whole Vipimo stack running on a single board computer preferably the raspberryPi. This provides an oportunity for having an E2E IoT system setup within a closed network that works offline possibly in power deficient environment.
+Rosslyn Solar project aims at having a minimalistic setup of the whole Vipimo stack running on a single board computer preferably the raspberryPi. This provides an oportunity for having an E2E IoT system setup within a closed network that works offline possibly in power deficient environment.
 At every instance any action undertaken within the project explicitly aimed at meeting the objectives:
 
 1. Successfully setup and configure Thingsboard, NodeRed, Lorawan Server, and MQTT broker 
