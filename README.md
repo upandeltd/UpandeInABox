@@ -33,7 +33,7 @@ Its necessary to follows the installation sequence as given below as the most li
 
 The steps below assumes:
 
-1. You have installed latest desktop version of the raspbian and changed the hostname to ``vipimolite``
+1. You have installed latest desktop version of the raspbian and changed the hostname to ``vipimolite`` in raspi-config.
 
 **INSTALL THINGSBOARD**
 
@@ -57,7 +57,7 @@ The steps below assumes:
 
 ```CREATE USER thingsboard with encrypted password 'upandegani';```
 
-```GRANT ALL PRIVILAGES ON DATABASE thingsboard TO thingsboard;```
+```GRANT ALL PRIVILEGES ON DATABASE thingsboard TO thingsboard;```
 
 *Download and install the custom thingsboard*
 
@@ -65,7 +65,7 @@ First, use wget to obtain the precustomized thingsboard debian package that has 
 
 ```sudo wget https://github.com/upandeltd/ROSSLYN-SOLAR/blob/main/thingsboard%202.4.0.deb```
 
-```sudo dpkg -i thingsboard-3.2.2.deb```
+```sudo dpkg -i thingsboard-2.4.0.deb```
 
 ```sudo /usr/share/thingsboard/bin/install/install.sh --loadDemo```
 
@@ -87,8 +87,8 @@ Accept the options when propmpted to install PI specific node
 
 When browsing from another machine you should use the hostname or IP-address of the Pi: ```http://<hostname>:1880```. You can find the IP address by running ```hostname -I``` on the Pi.
 
-Once installed:
-1. log into the pi and in ```/home/pi``` directory 
+Once installed, open new terminal window:
+1. log into the pi and in ```/home/vipimolite (/home/pi if you did not change the hostname at the beginning)``` directory 
 2. Create a json file Nodes.json with empty array i.e *type []* 
 3. Change the file permision: ``` sudo chmod 777 /home/pi/Nodes.json```
 4. Go to ```http://<hostname>:1880``` and import the ``` flows.json ``` in this repository.
@@ -119,7 +119,7 @@ On the Debian Linux and its clones like Raspbian you can use the .deb package.
 
 Unless you have Debian 10 (Buster) you have to install the Erlang/OTP 21.0 or later from Erlang Solutions first:
 
-```wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb```
+```sudo wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb```
 
 ```sudo dpkg -i erlang-solutions_1.0_all.deb```
 
@@ -131,15 +131,15 @@ Download the Debian package lorawan-server-*.deb and install it by:
 
 ```sudo wget https://github.com/gotthardp/lorawan-server/releases/download/v0.6.7/lorawan-server_0.6.7_all.deb```
 
-```dpkg -i lorawan-server_0.6.7_all.deb```
+```sudo dpkg -i lorawan-server_0.6.7_all.deb```
 
 start automatically after system reboot
 
-```systemctl enable lorawan-server```
+```sudo systemctl enable lorawan-server```
 
 The server by default binds itself to port 8080. But this is also the port used by the thingsboard installed above. As such we need to change the port it binds to as shown below:
 
-Static server configuration is defined in ```/usr/liblorawan-server/releases/0.6.7/sys.config```
+Static server configuration is defined in ```/usr/lib/lorawan-server/releases/0.6.7/sys.config```
 Edit sys.config  by changing ```{http_admin_listen, [{port, 8080}]}``` to  ```{http_admin_listen, [{port, 8084}]}```.
 
 Review the sys.config and modify where needed. After updating the configuration you need to restart the server.
