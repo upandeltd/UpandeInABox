@@ -90,7 +90,7 @@ When browsing from another machine you should use the hostname or IP-address of 
 Once installed:
 1. log into the pi and in ```/home/pi``` directory 
 2. Create a json file Nodes.json with empty array i.e *type []* 
-3. Change the file permision: ```bash sudo chmod 777 /home/pi/Nodes.json```
+3. Change the file permision: ``` sudo chmod 777 /home/pi/Nodes.json```
 4. Go to ```http://<hostname>:1880``` and import the ``` flows.json ``` in this repository.
 
 This flow contains node provisioning flows and the foundation for nodes data decoding.
