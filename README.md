@@ -59,6 +59,9 @@ The steps below assumes:
 
 ```GRANT ALL PRIVILEGES ON DATABASE thingsboard TO thingsboard;```
 
+```Exit Postgresql (Control-D)```
+
+
 *Download and install the custom thingsboard*
 
 First, use wget to obtain the precustomized thingsboard debian package that has the vipimo branding in this repository.
