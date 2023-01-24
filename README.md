@@ -10,7 +10,7 @@ At every instance any action undertaken within the project explicitly aimed at m
 3. Rigourously test and validate the system fuctionality and the operational limits
 
 ## GENERAL HARDWARE SETUP
-![GENRAL HERDWARE SETUP](/SETUP0.svg)
+![GENRAL HERDWARE SETUP](/images/SETUP0.svg)
 
 Its important that one determines the power characteristics of the devices that need to be supported and the uptime required to effectively come up with a suitable choice of the battery and an appropriate power supply interface. The current setup however, do consist of the following components:
      
@@ -26,7 +26,7 @@ Despite the relatively High battery capacity of approximately 840Wh incomparison
 Similary, to provide a higher uptime assurance, a parallel solar panel array can be used. This would prove usefull especially during cloudy conditions as it would still sufficienlty be able to provide a dequate charging current.
 
 ## SOFTWARE STACK SETUP
-![GENRAL HERDWARE SETUP](/STACK.svg)
+![GENRAL HERDWARE SETUP](/images/STACK.svg)
 
 The software components used are shown in the stack above.
 ### Setup installation instructions
@@ -65,7 +65,7 @@ The steps below assumes:
 
 *Download and install the custom thingsboard*
 
-First, use wget to obtain the precustomized thingsboard debian package that has the vipimo branding in this repository.
+First, use we get to obtain the precustomized thingsboard debian package that has the vipimo branding in this repository.
 
 ```sudo wget https://github.com/upandeltd/ROSSLYN-SOLAR/blob/main/thingsboard%202.4.0.deb```
 
@@ -78,6 +78,7 @@ First, use wget to obtain the precustomized thingsboard debian package that has 
 **NB** It takes upto 300 seconds for thingsboard to start. Be patient with it. It will eventually start at port 8080.
 
 **INSTALL NODE-RED**
+
 Node-red provides the bridge for packets data decoding and nodes provisioning in this case.
 Use the command below to install node-red
 
@@ -149,4 +150,12 @@ Edit sys.config  by changing ```{http_admin_listen, [{port, 8080}]}``` to  ```{h
 Review the sys.config and modify where needed. After updating the configuration you need to restart the server.
 Then start the server by ```systemctl restart lorawan-server```
 
-This would conclude the setup of the modules.
+## LORAWAN SERVER SETUP
+1. After opening LoraWan server, the first thing to setup is the area under infrastructure so that a gateway can be added
+![GENRAL HERDWARE SETUP](/images/area.svg)
+
+2. Proceed to Gateways under infrastructure and create a gateway there. Make sure to add the area you created above. Add the spicifics for your gateway and save. 
+![GENRAL HERDWARE SETUP](/images/gateway.svg)
+
+3. Proceed to network under infrastructure and create network. For NetID you can chose any random six characters. For European region(EU 868MHz) you can refer to the image below. Remember to fill ADR and Channels before saving changes. 
+
