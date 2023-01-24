@@ -157,7 +157,7 @@ Then start the server by ```systemctl restart lorawan-server```
 2. Proceed to Gateways under infrastructure and create a gateway there. Make sure to add the area you created above. Add the spicifics for your gateway and save. 
 ![GENRAL HERDWARE SETUP](/images/gateway.png)
 
-3. Proceed to network under infrastructure and create network. For NetID you can chose any random six characters. For European region(EU 868MHz) you can refer to the image below. Remember to fill ADR and Channels before saving changes. 
+3. Now proceed to network under infrastructure and create network. For NetID you can chose any random six characters. For European region(EU 868MHz) you can refer to the image below. Remember to fill ADR and Channels before saving changes. 
 ![GENRAL HERDWARE SETUP](/images/network.png)
 
 ![GENRAL HERDWARE SETUP](/images/ADR.png)
@@ -167,7 +167,7 @@ appropriately. You should not forget to include data, datetime, port, rssi, deva
 ![GENRAL HERDWARE SETUP](/images/handler.png)
 
 5. The next step is creating a Connector under Backends. On the application part you should input the handler you just created. Make sure that what you enter as publish uplink matches the topic you will enter in the mqtt-in node on Nodered. If you implemented authentication for you mqtt broker then you should add it on the authentication tab otherwise leave it blank.
- 
+
 **NB** It is advisable to use localhost other than the ip address of the pi when doing various setups. This includes the URI on connector and the MQTT-in node on Nodered. This is to avoid things failing when the ip address of the pi changes or the pi is not connected to any network. 
 ![GENRAL HERDWARE SETUP](/images/connector.png)
 
