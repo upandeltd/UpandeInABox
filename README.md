@@ -152,10 +152,11 @@ Then start the server by ```systemctl restart lorawan-server```
 
 **Lorawan Server Setup**
 1. After opening LoraWan server, the first thing to setup is the area under infrastructure so that a gateway can be added
-![GENRAL HERDWARE SETUP](/images/area.svg)
+![GENRAL HERDWARE SETUP](/images/area.png)
 
 2. Proceed to Gateways under infrastructure and create a gateway there. Make sure to add the area you created above. Add the spicifics for your gateway and save. 
-![GENRAL HERDWARE SETUP](/images/gateway.svg)
+![GENRAL HERDWARE SETUP](/images/gateway.png)
 
 3. Proceed to network under infrastructure and create network. For NetID you can chose any random six characters. For European region(EU 868MHz) you can refer to the image below. Remember to fill ADR and Channels before saving changes. 
-
+![GENRAL HERDWARE SETUP](/images/network.png)
+![GENRAL HERDWARE SETUP](/images/ADR.png)
