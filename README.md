@@ -150,7 +150,7 @@ Edit sys.config  by changing ```{http_admin_listen, [{port, 8080}]}``` to  ```{h
 Review the sys.config and modify where needed. After updating the configuration you need to restart the server.
 Then start the server by ```systemctl restart lorawan-server```
 
-## LORAWAN SERVER SETUP
+**Lorawan Server Setup**
 1. After opening LoraWan server, the first thing to setup is the area under infrastructure so that a gateway can be added
 ![GENRAL HERDWARE SETUP](/images/area.svg)
 
