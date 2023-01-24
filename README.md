@@ -160,3 +160,22 @@ Then start the server by ```systemctl restart lorawan-server```
 3. Proceed to network under infrastructure and create network. For NetID you can chose any random six characters. For European region(EU 868MHz) you can refer to the image below. Remember to fill ADR and Channels before saving changes. 
 ![GENRAL HERDWARE SETUP](/images/network.png)
 ![GENRAL HERDWARE SETUP](/images/ADR.png)
+
+4. After network we will now create the Handler under Backend. Make sure to fill the uplink fields
+appropriately. You should not forget to include data, datetime, port, rssi, devaddr, desc etc. 
+![GENRAL HERDWARE SETUP](/images/handler.png)
+
+5. The next step is creating a Connector under Backends. On the application part you should input the handler you just created. Make sure that what you enter as publish uplink matches the topic you will enter in the mqtt-in node on Nodered. If you implemented authentication for you mqtt broker then you should add it on the authentication tab otherwise leave it blank. 
+**NB** It is advisable to use localhost other than the ip address of the pi when doing various setups. This includes the URI on connector and the MQTT-in node on Nodered. This is to avoid things failing when the ip address of the pi changes or the pi is not connected to any network. 
+![GENRAL HERDWARE SETUP](/images/connector.png)
+
+6. The next step is creating the group under devices. You should chose the network you created in step number 3.
+![GENRAL HERDWARE SETUP](/images/group.png)
+
+7. Now proceed and create profile. Make sure to enter the Handler you created when filling the  application field. 
+![GENRAL HERDWARE SETUP](/images/profile.png)
+
+8. The next step is adding the node in  commissioned under Devices. Under Description you should add the access token you obtain after adding the device on Thingsboard. 
+![GENRAL HERDWARE SETUP](/images/commissioned.png)
+
+**NB** It is advisable to create different profiles, handlers and connectors for each type of device you have. In publish Uplinks in the connector; you should give them unique phrases and create a respective mqtt-in node for each device type in Nodered. This enables building a scalable system that accomodates many LoraWan device types.
