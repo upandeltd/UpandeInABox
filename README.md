@@ -1,7 +1,8 @@
-# ROSSLYN SOLAR
+# UpandeInABox
 
 ## Introduction
-Rosslyn Solar project aims at having a minimalistic setup of the whole Vipimo stack running on a single board computer preferably the raspberryPi. This provides an oportunity for having an E2E IoT system setup within a closed network that works offline possibly in power deficient environment.
+The UpandeInABox product aims at having a minimalistic setup of the whole Upande IOT/ERP stack running on a single board computer preferably the raspberryPi. This provides an oportunity for having an E2E IoT system setup within a closed network that works offline possibly in power deficient environment. It was originally thought to be suitable for the Rosslyn Solar kits, though was dropped there because the latency of IOT was not suitable for teaching kids solar. It was deployed for the Humanitarian Grand Challenges (GCC) project with TDH and NRC.
+
 At every instance any action undertaken within the project explicitly aimed at meeting the objectives:
 
 1. Successfully setup and configure Thingsboard, NodeRed, Lorawan Server, and MQTT broker 
