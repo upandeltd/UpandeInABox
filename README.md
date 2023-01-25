@@ -5,11 +5,11 @@ The UpandeInABox product aims at having a minimalistic setup of the whole Upande
 
 At every instance any action undertaken within the project explicitly aimed at meeting the objectives:
 
-1. Successfully setup and configure Thingsboard, NodeRed, Lorawan Server, and MQTT broker 
-2. Setup a solar power system to provide the total power requirement for the system
-3. Rigourously test and validate the system fuctionality and the operational limits
+1. Successfully setup and configure Thingsboard, NodeRed, Lorawan Server, and MQTT broker
+2. Rigourously test and validate the system fuctionality and the operational limits
 
 ## GENERAL HARDWARE SETUP
+<!--
 ![GENRAL HERDWARE SETUP](/images/SETUP0.svg)
 
 Its important that one determines the power characteristics of the devices that need to be supported and the uptime required to effectively come up with a suitable choice of the battery and an appropriate power supply interface. The current setup however, do consist of the following components:
@@ -23,7 +23,12 @@ Its important that one determines the power characteristics of the devices that 
 ### Hardware setup performance
 Despite the relatively High battery capacity of approximately 840Wh incomparison to the power consumption of the raspberry PI 4 of 6W the charge controller used in this case cuts off the power supply to the load line on which the raspberry PI is connected just before the battery voltage drops to 10.8V. This presents the first huddle in the operation of the system and as such needs to be delt with. A suitable controller that can operate te load to even relatively lower voltage.
 
-Similary, to provide a higher uptime assurance, a parallel solar panel array can be used. This would prove usefull especially during cloudy conditions as it would still sufficienlty be able to provide a dequate charging current.
+Similary, to provide a higher uptime assurance, a parallel solar panel array can be used. This would prove usefull especially during cloudy conditions as it would still sufficienlty be able to provide a dequate charging current. -->
+
+We are using a Dragino pg1301 LoraWan concentrator as a shield on the raspberry pi 3/4 as our multi-channel gateway. The documentation for setting up the shield is available on the dragino website. You should however change the port on the global_conf.json file from  1700 to 1680 as shown:  
+```       "server_address": "localhost", ```
+```        "serv_port_up": 1680, ```
+```        "serv_port_down": 1680, ```
 
 ## SOFTWARE STACK SETUP
 ![GENRAL HERDWARE SETUP](/images/STACK.svg)
