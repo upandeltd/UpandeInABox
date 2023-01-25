@@ -25,7 +25,7 @@ Despite the relatively High battery capacity of approximately 840Wh incomparison
 
 Similary, to provide a higher uptime assurance, a parallel solar panel array can be used. This would prove usefull especially during cloudy conditions as it would still sufficienlty be able to provide a dequate charging current. -->
 
-We are using a Dragino pg1301 LoraWan concentrator as a shield on the raspberry pi 3/4 as our multi-channel gateway. The documentation for setting up the shield is available on the dragino website. You should however change the port on the global_conf.json file from  1700 to 1680 as shown:  
+We are using a Dragino pg1301 LoraWan concentrator as a shield on the raspberry pi 3/4 as our multi-channel gateway. The documentation for setting up the pg1301 shield is available on the dragino website. You should however change the port on the global_conf.json file from  1700 to 1680 as shown:  
 ```       "server_address": "localhost", ```
 
 ```        "serv_port_up": 1680, ```
@@ -36,6 +36,7 @@ We are using a Dragino pg1301 LoraWan concentrator as a shield on the raspberry 
 ![GENRAL HERDWARE SETUP](/images/STACK.svg)
 
 The software components used are shown in the stack above.
+
 ### Setup installation instructions
 Its necessary to follows the installation sequence as given below as the most likely to fail part of the installation process is the thingsboard.
 
