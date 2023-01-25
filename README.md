@@ -27,7 +27,9 @@ Similary, to provide a higher uptime assurance, a parallel solar panel array can
 
 We are using a Dragino pg1301 LoraWan concentrator as a shield on the raspberry pi 3/4 as our multi-channel gateway. The documentation for setting up the shield is available on the dragino website. You should however change the port on the global_conf.json file from  1700 to 1680 as shown:  
 ```       "server_address": "localhost", ```
+
 ```        "serv_port_up": 1680, ```
+
 ```        "serv_port_down": 1680, ```
 
 ## SOFTWARE STACK SETUP
