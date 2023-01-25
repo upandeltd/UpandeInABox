@@ -39,9 +39,7 @@ The software components used are shown in the stack above.
 ### Setup installation instructions
 Its necessary to follows the installation sequence as given below as the most likely to fail part of the installation process is the thingsboard.
 
-The steps below assumes:
-
-1. You have installed latest desktop version of the raspbian and changed the hostname to ``vipimolite`` in raspi-config.
+The steps below assumes You have installed latest desktop version of the raspbian OS and changed the hostname to ``vipimolite`` in raspi-config.
 
 **INSTALL THINGSBOARD**
 
