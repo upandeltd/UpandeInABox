@@ -82,6 +82,9 @@ First, use we get to obtain the precustomized thingsboard debian package that ha
 ```sudo service thingsboard start```
 
 **NB** It takes upto 300 seconds for thingsboard to start. Be patient with it. It will eventually start at port 8080.
+Below is the link to the documentation on getting started with Thingsboard. 
+[Getting started with Thingsboard](https://thingsboard.io/docs/getting-started-guides/helloworld/)
+
 
 **INSTALL NODE-RED**
 
