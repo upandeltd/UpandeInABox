@@ -131,7 +131,8 @@ The setting above changes the listening port of the mqtt broker. The default por
 
 On the Debian Linux and its clones like Raspbian you can use the .deb package.
 
-Unless you have Debian 10 (Buster) you have to install the Erlang/OTP 21.0 or later from Erlang Solutions first:
+<!-- Unless you have Debian 10 (Buster) you have to install the Erlang/OTP 21.0 or later from Erlang Solutions first: -->
+First nstall the Erlang/OTP 21.0 or later from Erlang Solutions.
 
 ```sudo wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb```
 
