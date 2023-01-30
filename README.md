@@ -129,10 +129,8 @@ The setting above changes the listening port of the mqtt broker. The default por
 
 **Install Lorawan Server**
 
-On the Debian Linux and its clones like Raspbian you can use the .deb package.
-
+On the Debian Linux and its clones like Raspbian we will install the server from a .deb package. But first install the Erlang/OTP 21.0 or later from Erlang Solutions.
 <!-- Unless you have Debian 10 (Buster) you have to install the Erlang/OTP 21.0 or later from Erlang Solutions first: -->
-First nstall the Erlang/OTP 21.0 or later from Erlang Solutions.
 
 ```sudo wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb```
 
